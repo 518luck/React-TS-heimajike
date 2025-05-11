@@ -1,5 +1,6 @@
 import { Image, List, InfiniteScroll } from 'antd-mobile'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 // mock数据
 import { fetchArticlesAPI } from '@/apis/list'
 import type { ListRes } from '@/apis/list'
@@ -53,11 +54,18 @@ const HomeList = (props: Props) => {
       console.log(error)
     }
   }
+
+  const navigate = useNavigate()
+  const goToDetail = (id: string) => {
+    // 路由条转
+    navigate(`/detail?id=${id}`)
+  }
   return (
     <>
       <List>
         {listRes.results.map((item) => (
           <List.Item
+            onClick={() => goToDetail(item.art_id)}
             key={item.art_id}
             prefix={
               item?.cover?.images && item.cover.images.length > 0 ? (
