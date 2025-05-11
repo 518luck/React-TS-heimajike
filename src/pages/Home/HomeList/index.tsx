@@ -36,6 +36,22 @@ const HomeList = (props: Props) => {
   const [hasMore, setHasMore] = useState(true)
   const loadMore = async () => {
     console.log('上拉加载触发')
+    try {
+      const res = await fetchArticlesAPI({
+        channel_id: channelId,
+        timestamp: listRes.pre_timestamp,
+      })
+      //拼接新数据+存取下一次请求的时间戳
+      setListRes({
+        results: [...listRes.results, ...res.data.data.results],
+        pre_timestamp: res.data.data.pre_timestamp,
+      })
+      if (res.data.data.results.length === 0) {
+        setHasMore(false)
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
   return (
     <>
