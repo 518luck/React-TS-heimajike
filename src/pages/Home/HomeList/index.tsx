@@ -1,4 +1,4 @@
-import { Image, List } from 'antd-mobile'
+import { Image, List, InfiniteScroll } from 'antd-mobile'
 import { useEffect, useState } from 'react'
 // mock数据
 import { fetchArticlesAPI } from '@/apis/list'
@@ -33,7 +33,10 @@ const HomeList = (props: Props) => {
     }
     getList()
   }, [channelId])
-
+  const [hasMore, setHasMore] = useState(true)
+  const loadMore = async () => {
+    console.log('上拉加载触发')
+  }
   return (
     <>
       <List>
@@ -56,6 +59,10 @@ const HomeList = (props: Props) => {
           </List.Item>
         ))}
       </List>
+      <InfiniteScroll
+        loadMore={loadMore}
+        hasMore={hasMore}
+        threshold={10}></InfiniteScroll>
     </>
   )
 }
